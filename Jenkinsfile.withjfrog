@@ -1,0 +1,29 @@
+node {
+  def server = Artifactory.server 'killabayte.jfrog.io'
+  def GContainer = docker.image('gradle:jdk8-alpine')
+  GContainer.pull()
+  stage('Preparation') {
+    checkout scm
+  }
+  stage('Build') {
+     GContainer.inside("-v ${env.HOME}/.gradle:/home/gradle/.gradle") {
+       sh 'cd complete && ./gradlew build'
+     }
+  }
+  stage('Testing') {
+     GContainer.inside("-v ${env.HOME}/.gradle:/home/gradle/.gradle") {
+       sh 'cd complete && ./gradlew test'
+     }
+  }
+  stage('Publish') {
+    def uploadSpec = """{
+      "files": [
+        {
+          "pattern": "complete/build/libs/gs-gradle-*.jar",
+          "target": "gradle-dev-local/academy/newtech/gs-gradle/1.0/gs-gradle-1.0-docker.jar"
+        }
+     ]
+    }"""
+    server.upload(uploadSpec)
+  }
+}
