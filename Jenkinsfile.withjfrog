@@ -1,18 +1,18 @@
 node {
   def server = Artifactory.server 'killabayteyarick.jfrog.io'
-  def GContainer = docker.image('gradle:jdk8-alpine')
+  def GContainer = docker.image('gradle:jdk8')
   GContainer.pull()
   stage('Preparation') {
     checkout scm
   }
   stage('Build') {
      GContainer.inside("-v ${env.HOME}/.gradle:/home/gradle/.gradle") {
-       sh 'cd complete && ./gradle build'
+       sh 'cd complete && ./gradlew build'
      }
   }
   stage('Testing') {
      GContainer.inside("-v ${env.HOME}/.gradle:/home/gradle/.gradle") {
-       sh 'cd complete && ./gradle test'
+       sh 'cd complete && ./gradlew test'
      }
   }
   stage('Publish') {
