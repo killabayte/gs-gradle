@@ -20,7 +20,7 @@ node {
       "files": [
         {
           "pattern": "complete/build/libs/gs-gradle-*.jar",
-          "target": "gradle-dev-local/academy/newtech/gs-gradle/1.0/gs-gradle-1.0-docker.jar"
+          "target": "gradle-dev-local/killabayte/yarick/gs-gradle/1.0/gs-gradle-1.0-docker.jar"
         }
      ]
     }"""
