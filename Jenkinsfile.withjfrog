@@ -1,5 +1,5 @@
 node {
-  def server = Artifactory.server 'killabayte.jfrog.io'
+  def server = Artifactory.server 'killabayteyarick.jfrog.io'
   def GContainer = docker.image('gradle:jdk8-alpine')
   GContainer.pull()
   stage('Preparation') {
